@@ -33,15 +33,14 @@ def fetch_data(table_name, user_id):
     return df
 
 
-user_id = 5  
+user_id = 5  # Updated to match your data
 
-# Fetching the data through the method.
+# Fetching the data through the method
 meals_df = fetch_data('meals', user_id)
 exercise_df = fetch_data('exercise', user_id)
 sleep_df = fetch_data('sleep', user_id)
 water_df = fetch_data('water', user_id)
 mood_df = fetch_data('mood', user_id)
-
 
 if meals_df.empty or exercise_df.empty or sleep_df.empty or water_df.empty or mood_df.empty:
     print("Warning: One or more DataFrames are empty. Ensure data exists for user_id =", user_id)
@@ -162,23 +161,19 @@ else:
     plt.savefig('mood_frequency.png')
     plt.close()
 
-    # Graph 5: Exercise Duration Trend 
-    max_days = min(30, (pd.Timestamp.now() - exercise_df['timestamp'].min()).days)
-    last_n_days_exercise = exercise_df[exercise_df['timestamp'] >= (pd.Timestamp.now() - pd.Timedelta(days=max_days))]
-    plt.figure(figsize=(10, 6))
-    plt.plot(last_n_days_exercise['timestamp'].dt.strftime('%a, %b %d'), last_n_days_exercise['duration_mins'], 
-             marker='o', color='#6a1b9a', label='Minutes')
-    avg_duration = last_n_days_exercise['duration_mins'].mean()
-    plt.axhline(y=avg_duration, color='red', linestyle='--', label=f'Avg: {avg_duration:.1f} mins')
-    plt.title('Exercise Duration Trend', fontsize=14, color='white')
-    plt.xlabel('Date', color='white')
-    plt.ylabel('Minutes', color='white')
-    plt.xticks(rotation=45, ha='right')
-    plt.grid(True, linestyle='--', alpha=0.7, color='gray')
-    plt.legend()
+    # Graph 5: Macronutrient Split (Pie Chart, All Available Data)
+    total_carbs = meals_df['carbs'].sum()
+    total_protein = meals_df['protein'].sum()
+    total_fat = meals_df['fat'].sum()
+    macronutrients = {'Carbs': total_carbs, 'Protein': total_protein, 'Fat': total_fat}
+    plt.figure(figsize=(8, 8))
+    plt.pie(macronutrients.values(), labels=macronutrients.keys(), colors=['#4caf50', '#2196f3', '#ff9800'], 
+            autopct='%1.1f%%', startangle=90, wedgeprops={'edgecolor': 'white'})
+    plt.title('Macronutrient Split', fontsize=14, color='white')
+    plt.axis('equal')
     plt.style.use('dark_background')
     plt.tight_layout()
-    plt.savefig('exercise_duration.png')
+    plt.savefig('macronutrient_split.png')
     plt.close()
 
     # Graph 6: Water Intake Trend 
@@ -224,4 +219,4 @@ else:
     plt.savefig('calorie_balance.png')
     plt.close()
 
-    print("Graphs saved as PNG files: dashboard_sleep_trend.png, dashboard_calories_in_out.png, sleep_quality.png, mood_frequency.png, exercise_duration.png, water_intake.png, calorie_balance.png")
+    print("Graphs saved as PNG files: dashboard_sleep_trend.png, dashboard_calories_in_out.png, sleep_quality.png, mood_frequency.png, macronutrient_split.png, water_intake.png, calorie_balance.png")

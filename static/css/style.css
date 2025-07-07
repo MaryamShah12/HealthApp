@@ -1,84 +1,623 @@
+/* Import Fonts (already present, ensure it stays) */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Montserrat:wght@600;700&display=swap');
+
+/* Base Styles (already present, ensure consistency) */
 body {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
+    background: radial-gradient(circle at center, #0a0a12, #030306 60%);
     color: #ffffff;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    position: relative;
 }
 
-.card {
-    background-color: #2a2a2a;
-    border: none;
-    border-radius: 10px;
+/* 🌌 Glowing Particle Layer (already present) */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 10% 20%, rgba(255, 152, 0, 0.2), transparent 30%),
+        radial-gradient(circle at 90% 80%, rgba(0, 123, 255, 0.2), transparent 30%),
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.15), transparent 40%);
+    animation: glowPulse 15s ease-in-out infinite;
+    z-index: -1;
+    pointer-events: none;
+    filter: blur(20px);
+    opacity: 0.85;
 }
 
-.nav-tabs {
-    border-bottom: 2px solid #444;
+/* 🌟 Moving Star-like Objects (already present) */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><circle cx="40" cy="40" r="2" fill="rgba(255,255,255,0.7)"/></svg>') repeat;
+    background-size: 40px 40px;
+    animation: starOrbit 45s linear infinite;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.65;
 }
 
-.nav-tabs .nav-link {
-    color: #ccc;
-    font-weight: 500;
-    transition: all 0.3s;
+/* Keyframes (already present) */
+@keyframes glowPulse {
+    0% { transform: scale(1) translate(0, 0); opacity: 0.85; }
+    50% { transform: scale(1.05) translate(-10px, -10px); opacity: 0.95; }
+    100% { transform: scale(1) translate(0, 0); opacity: 0.85; }
 }
 
-.nav-tabs .nav-link.active {
+@keyframes starOrbit {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(-80px, -80px); }
+}
+
+@keyframes fadeInSlide {
+    0% { opacity: 0; transform: translateY(-30px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes rotateIn {
+    0% { transform: rotate(-10deg) scale(0.9); opacity: 0; }
+    100% { transform: rotate(0deg) scale(1); opacity: 1; }
+}
+
+/* Navigation Bar */
+.navbar {
+    background: linear-gradient(135deg, rgba(10, 10, 18, 0.9) 0%, rgba(3, 3, 6, 0.9) 100%);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+    padding: 15px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255, 152, 0, 0.2);
+    animation: fadeInSlide 1s ease-out forwards;
+}
+
+.navbar-brand {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.8rem;
     color: #ffffff;
-    background-color: #3a3a3a;
-    border-color: #444;
+    text-shadow: 0 0 10px rgba(255, 152, 0, 0.4);
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 8px 15px;
 }
 
-.nav-tabs .nav-link:hover {
-    color: #ffffff;
-    background-color: #444;
-}
-
-h3 {
-    color: #ffffff;
-    padding-top: 5px;
-    padding-bottom: 10px;
-}
-
-.form-label {
-    color: #ffffff;
-}
-
-.form-control {
-    background-color: #3a3a3a;
-    border: 1px solid #555;
-    color: #ffffff;
-}
-
-.form-control::placeholder {
-    color: #bbb;
-}
-
-.form-control:focus {
-    background-color: #3a3a3a;
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-    color: #ffffff;
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
-    border: none;
-    border-radius: 5px;
-    font-weight: 500;
-    transition: all 0.3s;
-    width: 48%; /* Adjusted for two buttons side by side */
-}
-
-.btn-primary:hover {
-    background: linear-gradient(135deg, #0056b3 0%, #003d80 100%);
+.navbar-brand:hover {
+    color: #ff9800;
+    text-shadow: 0 0 15px rgba(255, 152, 0, 0.7);
     transform: translateY(-2px);
 }
 
-/* Additional styles for dashboard stat cards */
-.card h5 {
-    color: #ffffff;
-    font-size: 1.25rem;
+.navbar-brand::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #ff9800;
+    transition: width 0.3s ease;
 }
 
-.card .lead {
-    color: #d3d3d3; /* Lighter gray for stat values to distinguish from headings */
-    font-size: 1.5rem;
+.navbar-brand:hover::after {
+    width: 100%;
+}
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.navbar-nav .nav-link {
+    color: #cccccc;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 1.1rem;
+    padding: 10px 20px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ffffff;
+    background: rgba(255, 152, 0, 0.2);
+    box-shadow: 0 0 15px rgba(255, 152, 0, 0.3);
+    transform: translateY(-2px);
+}
+
+.navbar-nav .nav-link.active {
+    color: #ffffff;
+    background: rgba(255, 152, 0, 0.3);
+    box-shadow: 0 0 15px rgba(255, 152, 0, 0.5);
+}
+
+.navbar-nav .nav-link.text-danger {
+    color: #dc3545;
+}
+
+.navbar-nav .nav-link.text-danger:hover {
+    background: rgba(220, 53, 69, 0.3);
+    color: #ffffff;
+}
+
+/* Add subtle glow effect on hover */
+.navbar-nav .nav-link::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 152, 0, 0.4);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.5s ease, height 0.5s ease;
+    z-index: -1;
+}
+
+.navbar-nav .nav-link:hover::before {
+    width: 200px;
+    height: 200px;
+}
+
+/* Mobile Menu Toggle */
+.navbar-toggler {
+    border: none;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.navbar-toggler:hover {
+    background: rgba(255, 152, 0, 0.2);
+    transform: scale(1.1);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 152, 0, 0.8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 10px 15px;
+    }
+
+    .navbar-brand {
+        font-size: 1.5rem;
+    }
+
+    .navbar-nav {
+        flex-direction: column;
+        background: rgba(10, 10, 18, 0.95);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+        animation: fadeInSlide 0.5s ease-out;
+    }
+
+    .navbar-nav .nav-link {
+        font-size: 1rem;
+        padding: 12px 20px;
+        width: 100%;
+        text-align: center;
+        border-radius: 10px;
+    }
+
+    .navbar-nav .nav-link:hover::before {
+        width: 300px;
+        height: 300px;
+    }
+}
+
+/* Header Animation (already present) */
+.animate-header {
+    animation: fadeInSlide 1.2s ease-out forwards;
+}
+
+/* Login Page Card Styling */
+.card {
+    background: rgba(0, 0, 0, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 20px !important;
+    backdrop-filter: blur(15px) !important;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8) !important;
+}
+
+.card h3 {
+    color: #ffffff !important;
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 600 !important;
+}
+
+.card p {
+    color: #cccccc !important;
+}
+
+/* Form Input Styling */
+.form-control {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 10px !important;
+    color: #ffffff !important;
+    padding: 12px 15px !important;
+    font-family: 'Poppins', sans-serif !important;
+    transition: all 0.3s ease !important;
+}
+
+.form-control:focus {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-color: #ff9800 !important;
+    box-shadow: 0 0 10px rgba(255, 152, 0, 0.3) !important;
+    color: #ffffff !important;
+}
+
+.form-control::placeholder {
+    color: #aaaaaa !important;
+}
+
+.form-select {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 10px !important;
+    color: #ffffff !important;
+    padding: 12px 15px !important;
+    font-family: 'Poppins', sans-serif !important;
+    transition: all 0.3s ease !important;
+}
+
+.form-select:focus {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-color: #ff9800 !important;
+    box-shadow: 0 0 10px rgba(255, 152, 0, 0.3) !important;
+    color: #ffffff !important;
+}
+
+.form-select option {
+    background: #1a1a1a !important;
+    color: #ffffff !important;
+}
+
+/* Specific styles for add data page dropdowns */
+.add-data-form-select {
+    background: rgba(10, 10, 18, 0.9) !important;
+    color: #ffffff !important;
+}
+
+.add-data-form-select option {
+    background: #1a1a1a !important;
+    color: #ffffff !important;
+}
+
+.add-data-form-select:focus {
+    background: rgba(10, 10, 18, 0.95) !important;
+    border-color: #ff9800 !important;
+    box-shadow: 0 0 10px rgba(255, 152, 0, 0.3) !important;
+    color: #ffffff !important;
+}
+
+/* Specific styles for add data page text inputs */
+.add-data-form-control {
+    background: rgba(10, 10, 18, 0.9) !important;
+    color: #ffffff !important;
+}
+
+.add-data-form-control:focus {
+    background: rgba(10, 10, 18, 0.95) !important;
+    border-color: #ff9800 !important;
+    box-shadow: 0 0 10px rgba(255, 152, 0, 0.3) !important;
+    color: #ffffff !important;
+}
+
+.form-label {
+    color: #ffffff !important;
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 500 !important;
+    margin-bottom: 8px !important;
+}
+
+/* Button Styling */
+.btn {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary {
+    background-color: #ff9800;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #f57c00;
+    transform: scale(1.05);
+}
+
+.btn-secondary {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+}
+
+.btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
+
+/* Tab Styling */
+.nav-tabs {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.nav-tabs .nav-link {
+    background: transparent !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-bottom: none !important;
+    color: #cccccc !important;
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 500 !important;
+    border-radius: 10px 10px 0 0 !important;
+    transition: all 0.3s ease !important;
+}
+
+.nav-tabs .nav-link:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+}
+
+.nav-tabs .nav-link.active {
+    background: rgba(255, 152, 0, 0.2) !important;
+    border-color: #ff9800 !important;
+    color: #ffffff !important;
+}
+
+/* Input Group Styling */
+.input-group-text {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-right: none !important;
+    color: #ff9800 !important;
+    border-radius: 10px 0 0 10px !important;
+}
+
+.input-group .form-control {
+    border-left: none !important;
+    border-radius: 0 10px 10px 0 !important;
+}
+
+.input-group .form-select {
+    border-left: none !important;
+    border-radius: 0 10px 10px 0 !important;
+}
+
+/* Accordion Styling */
+.accordion-item {
+    background: rgba(0, 0, 0, 0.7) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 15px !important;
+    margin-bottom: 20px !important;
+    backdrop-filter: blur(10px) !important;
+    overflow: hidden !important;
+}
+
+.accordion-header {
+    border-radius: 15px 15px 0 0 !important;
+}
+
+.accordion-button {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: none !important;
+    color: #ffffff !important;
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 1.1rem !important;
+    padding: 20px !important;
+    border-radius: 15px !important;
+    transition: all 0.3s ease !important;
+}
+
+.accordion-button:not(.collapsed) {
+    background: rgba(255, 152, 0, 0.2) !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+    border-radius: 15px 15px 0 0 !important;
+}
+
+.accordion-button:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.accordion-button:focus {
+    box-shadow: 0 0 10px rgba(255, 152, 0, 0.3) !important;
+}
+
+.accordion-button::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e") !important;
+}
+
+.accordion-body {
+    background: rgba(0, 0, 0, 0.3) !important;
+    color: #ffffff !important;
+    padding: 25px !important;
+    border-radius: 0 0 15px 15px !important;
+}
+
+/* Alert Styling */
+.alert {
+    background: rgba(220, 53, 69, 0.2) !important;
+    border: 1px solid rgba(220, 53, 69, 0.3) !important;
+    border-radius: 10px !important;
+    color: #ffffff !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+.alert-danger {
+    background: rgba(220, 53, 69, 0.2) !important;
+    border-color: rgba(220, 53, 69, 0.3) !important;
+}
+
+/* Input Icon Styling for Login */
+.input-icon {
+    position: relative;
+}
+
+.input-icon i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ff9800;
+    z-index: 10;
+}
+
+.input-icon .form-control {
+    padding-left: 45px !important;
+}
+
+/* Graph Dashboard Styling */
+.graph-dashboard {
+    width: 100%;
+    max-width: 1200px;
+    padding: 20px;
+}
+
+.graph-container {
+    position: relative;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 20px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+    animation: fadeInSlide 1.5s ease-out forwards;
+}
+
+.graph-display {
+    position: relative;
+    height: 500px;
+    overflow: hidden;
+}
+
+.graph-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.graph-image.active {
+    opacity: 1;
+}
+
+.graph-info {
+    margin-top: 20px;
+}
+
+.graph-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 2rem;
+    color: #ff9800;
+    text-shadow: 0 0 15px rgba(255, 152, 0, 0.5);
+    animation: rotateIn 0.8s ease-out;
+}
+
+.graph-subtitle {
+    font-family: 'Poppins', sans-serif;
+    color: #cccccc;
+    font-size: 1.2rem;
+    margin-top: 10px;
+}
+
+.graph-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.nav-btn {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.nav-btn:hover {
+    color: #ff9800;
+    transform: scale(1.1);
+}
+
+.indicator {
+    width: 12px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.indicator.active {
+    background: #ff9800;
+    box-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
+}
+
+.indicator:hover {
+    background: rgba(255, 152, 0, 0.7);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .graph-display {
+        height: 350px;
+    }
+    .graph-title {
+        font-size: 1.5rem;
+    }
+    .graph-subtitle {
+        font-size: 1rem;
+    }
+    .nav-btn {
+        font-size: 1.5rem;
+    }
+    
+    .accordion-button {
+        font-size: 1rem !important;
+        padding: 15px !important;
+    }
+    
+    .accordion-body {
+        padding: 20px !important;
+    }
 }
